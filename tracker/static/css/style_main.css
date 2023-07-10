@@ -1,0 +1,272 @@
+body {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    cursor: pointer;
+}
+
+.header{
+    position: absolute;
+    width: 1000px;
+    height: 120px;
+    top: 0px;
+
+    background: #101010;
+}
+
+.addHabitForm_Header {
+    position: absolute;
+    left: 0px;
+    width: 1000px;
+    height: 120px;
+    top: 0px;
+    background: linear-gradient(0deg, #000000, #000000), #212121;
+}
+
+#habit {
+    position: absolute;
+    margin-left: 50px;
+    margin-top: 50px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 44px;
+    line-height: 19px;
+
+    color: #FFFFFF;
+}
+
+.header_button {
+    position: absolute;
+    background: none;
+    border: none;
+}
+
+header_button:hover {
+    text-decoration: underline;
+}
+
+#bt_burger {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    width: 60px;
+    height: 60px;
+    fill: white;
+}
+
+#bt_add {
+    top: 10px;
+    right: 13%;
+    width: 100px;
+    height: 100px;
+    fill: white;
+
+}
+
+.dates_block {
+    position: absolute;
+    width: 1000px;
+    height: 110px;
+    top: 120px;
+    background: #212121;
+}
+
+.dates_block ul {
+    margin-left: 390px;
+    margin-top: 20px;
+}
+
+.dates_block li {
+    display: inline-block;
+    text-align: center;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    margin-right: 34px;
+
+    color: #A0A0A0;
+}
+
+.main {
+    position: absolute;
+    width: 1000px;
+    height: 2000px;
+    top: 230px;
+    background: #212121;
+}
+
+.main ul {
+    margin-top: 0px;
+    padding: 0px;
+}
+
+.main li {
+    display: block;
+    margin: 0 0 8px;
+    list-style-type: none;
+    margin-left: 5px;
+    background: #303030;
+}
+
+.title {
+    display: inline;
+}
+
+.title input {
+    display: inline-flex;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 42px;
+    line-height: 15px;
+    background: none;
+    width: 300px;
+    height: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    margin-left: 80px;
+    margin-top: 0px;
+    border: none;
+    color: white;
+}
+
+.el_counter {
+    position: absolute;
+    display: inline;
+    font-size: 36px;
+    margin-top: 32px;
+    margin-left: 35px;
+    color: #A0A0A0;
+}
+
+
+.el_info:active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+}
+
+.el_row {
+    display: flex;
+    align-items: center;
+    width: auto;
+    height: 100px;
+
+}
+
+.block_habit {
+    display: flex;
+    width: 1000px;
+    height: 100px;
+    margin-top: 20px;
+
+}
+.block_habit ul {
+    margin-left: 45px;
+
+}
+
+.block_habit input {
+    margin-top: 0px;
+    margin-right: 20px;
+}
+
+.block_habit li {
+    margin-right: 10px;
+    display: inline-flex;
+    list-style-type: none;
+}
+
+.dates_1, .dates_2, .dates_3, .dates_4, .dates_5 {
+    height: 70px;
+    width: 70px;
+}
+
+.dates_1:active , .dates_2:active , .dates_3:active , .dates_4:active , .dates_5:active, .header_button:active{
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+}
+
+
+
+
+.block_habit button {
+    height: 70px;
+    width: 50px;
+    display: block;
+    margin-right: 42px;
+
+    background: none;
+    border: none;
+
+}
+
+.block_habit span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 24px;
+    color: #A0A0A0;
+}
+
+.edit_hm_action_form {
+    height: 2000px;
+    width: 950px;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+
+.edit_hm_block {
+    position: absolute;
+    margin-top: 300px;
+    margin-left: 175px;
+    background: #424242;
+    height: 300px;
+    width: 600px;
+    border: none;
+}
+
+.edit_hm_block span {
+    display: flex;
+    margin-left: 5%;
+    margin-top: 10px;
+    font-size: 36px;
+    color: #FCFCFC;
+}
+
+#edit_hm_field {
+    left: 7%;
+    display: flex;
+    top: 35%;
+    height: 70px;
+    width: 500px;
+
+    font-size: 18px;
+    color: white;
+}
+
+#edit_hm_btn {
+    display: flex;
+    margin-left: 510px;
+    margin-top: 190px;
+    font-size: 30px;
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px;
+}
+
+#edit_hm_btn:hover {
+    background: black;
+}

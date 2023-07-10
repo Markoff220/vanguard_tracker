@@ -1,0 +1,343 @@
+button {
+    cursor: pointer;
+}
+
+#addWindows {
+    position: absolute;
+    margin-top: 0px;
+    width: 950px;
+    height: 2500px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+
+    justify-content: center;
+
+}
+
+.addWindowsBtns {
+    margin-top: 300px;
+    margin-left: 30px;
+}
+
+.addWindowsButton {
+    border-radius: 15px;
+    padding: 30px;
+    width: 880px;
+    height: 240px;
+    margin-top: 40px;
+    font-size: 34px;
+    background: #303030;
+    border: none;
+    color: #d6d6d6;
+    text-align: left;
+}
+
+h2 {
+    margin-top: 0px;
+}
+
+
+.addHabitForm {
+    position: absolute;
+    margin-top: 0px;
+    width: 950px;
+    height: 100%;
+    background: #2b2b2b;
+}
+
+.data_input {
+    position: absolute;
+    border-radius: 15px;
+    left: 40px;
+    width: 850px;
+    height: 150px;
+    background:none;
+    border: 1px solid #555555;
+    color: #cccccc;
+}
+
+.data_input input {
+    background: transparent;
+    border: none;
+    outline:none;
+    color: #cccccc;
+    width: 100%;
+    font-size: 40px;
+    padding: 20px;
+}
+.data_input legend , .choice_color legend {
+    font-size: 40px;
+}
+
+.addHabitForm ul {
+    margin-top: 100px;
+    height: auto;
+    width: auto;
+    margin-left: 0px;
+}
+
+.addHabitForm li{
+    display: flex;
+    list-style-type: none;
+    margin-top: 200px;
+    margin-left: 0px;
+}
+
+.choice_color {
+    position: absolute;
+    margin-left: 680px;
+    border-radius: 5px;
+    width: 150px;
+    height: 150px;
+    background: none;
+    border: 1px solid #555555;
+    color: #cccccc;
+    text-align: center;
+}
+
+.btn_color {
+    height: 70px;
+    width: 70px;
+    border-radius: 10px;
+    margin-top: 10px;
+    background: #FFD700;
+    cursor: pointer;
+}
+
+.form_color {
+    background: #424242;
+    border: 0px solid;
+    margin-top: 400px;
+    height: 950px;
+    width: 800px;
+}
+
+.color_block {
+    display:block;
+    margin: auto;
+    margin-left: 50px;
+    margin-top: 50px;
+    height: 600px;
+    width: 700px;
+
+}
+
+.color_block ul {
+    padding: 0px;
+    margin-top: 0%;
+    margin-left: 25px;
+}
+
+.color_block li.outside_el {
+    margin-left: 0px;
+    margin-top: 20px;
+    width: auto;
+    list-style-type: none;
+    padding: 1px;
+}
+
+.color_block li.inside_el {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.form_color article {
+    margin-left: 35px;
+    margin-top: 35px;
+    color: #e3dcd5;
+    /* Изменить цвет */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 50px;
+    line-height: 36px;
+
+    color: #E3E3E3;
+
+
+}
+
+.btn_choice_color {
+    width: 130px;
+    height: 130px;
+    border-radius: 70px;
+    border: 0px;
+    cursor: pointer;
+}
+
+.btn_choice_color:hover {
+    background: black;
+}
+
+#title_hm, #title_yn {
+    width: 650px;
+
+}
+
+
+.Habit_form_bt_save {
+    cursor: pointer;
+    position: absolute;
+    border-radius: 5px;
+    height: 70px;
+    width: 220px;
+    margin-top: 25px;
+    right: 5%;
+    font-size: 30px;
+    text-align: center;
+
+    color: white;
+    background: none;
+    border: 1px solid white;
+
+}
+
+.Habit_form_bt_save:hover {
+    text-decoration: underline;
+    background: #292929;
+}
+
+.bt_back {
+    position: absolute;
+    margin-top: 18px;
+    margin-left: 45px;
+    height: 70px;
+    width: 70px;
+    border: none;
+}
+
+.addHabit_text {
+    position: absolute;
+    color: #d4d4d4;
+    font-size: 42px;
+    margin-left: 160px;
+    margin-top: 40px;
+}
+
+.data_input_frequency {
+    text-align: left;
+    padding: 0 0 35px 0;
+    cursor: pointer;
+
+}
+
+.form_frequency {
+    background: #424242;
+    height: 450px;
+    width: 900px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+}
+
+.frequency_radio {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.block_radio_frequency label::before {
+  vertical-align: -5px;
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  flex-grow: 0;
+  border: 3px solid #898989;
+  border-radius: 1em;
+  margin-right: 1em;
+}
+
+.block_radio_frequency input:not(:disabled):active+p::before {
+  background-color: #b3d7ff;
+  border-color: #b3d7ff;
+}
+
+.block_radio_frequency input:checked+label::before {
+  border-color: #0b76ef;
+  background-color: #0b76ef;
+  width: 1em;
+  height: 1em;
+}
+
+.frequency_text {
+    padding: 5px;
+    margin-left: 10px;
+    font-size: 34px;
+    color: #cccccc;
+    vertical-align: auto;
+}
+
+.block_radio_frequency {
+    display: flex;
+    height: 65px;
+    margin-top: 25px;
+    margin-left: 15px;
+    align-items: center;
+    justify-content: left;
+    text-align: center;
+}
+
+.frequency_days {
+    background: black;
+    width: 100px;
+    height: 100px;
+}
+
+.btn_save_frequency {
+    position: absolute;
+    border-radius: 5px;
+    height: 45px;
+    width: 250px;
+    top: 78%;
+    right: 5%;
+    font-size: 34px;
+    text-align: center;
+    color: white;
+    background: none;
+    border: none;
+}
+
+.btn_save_frequency:hover {
+    background: #54564D ;
+}
+
+.btn_frequency_N {
+    display: inline;
+    width: 65px;
+    height: 55px;
+    background: #212121;
+    color: #cccccc;
+    border: none;
+    text-align: auto;
+    border-radius: 5px;
+    margin-right: 7px;
+    margin-left: 3px;
+    text-align: center;
+    font-size: 20px;
+
+}
+
+.btn_frequency_N:active {
+    border: 0px;
+}
+
+.img_error {
+    position: absolute;
+    margin-top: 26px;
+    margin-left: 450px;
+    height: 35px;
+    width: 35px;
+    border: none;
+}
+
+#hm_frequency_field {
+    margin-left: 450px;
+    width: 400px;
+}
+
+#hm_units_field {
+    width: 400px;
+}

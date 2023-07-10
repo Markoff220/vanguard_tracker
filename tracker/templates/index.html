@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+
+{% load static %}
+{% load filters %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ваши привычки</title>
+    <link rel="stylesheet" href="{% static 'css/style_main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style_addHabit.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style_el_info.css' %}">
+</head>
+
+<body>
+    <script src="{% static 'js/script.js' %}"></script>
+
+    <div class="header">
+        <span id="habit">Привычки</span>
+
+        <div class="dropdown">
+            <button class="header_button" id="bt_burger" onclick="btn_burger();">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 490.667 490.667" style="enable-background:new 0 0 490.667 490.667;" xml:space="preserve">
+                    <g>
+                        <path d="M469.333,224h-448C9.551,224,0,233.551,0,245.333c0,11.782,9.551,21.333,21.333,21.333h448   c11.782,0,21.333-9.551,21.333-21.333C490.667,233.551,481.115,224,469.333,224z"/>
+                        <path d="M21.333,117.333h448c11.782,0,21.333-9.551,21.333-21.333s-9.551-21.333-21.333-21.333h-448C9.551,74.667,0,84.218,0,96   S9.551,117.333,21.333,117.333z"/>
+                        <path d="M469.333,373.333h-448C9.551,373.333,0,382.885,0,394.667C0,406.449,9.551,416,21.333,416h448   c11.782,0,21.333-9.551,21.333-21.333C490.667,382.885,481.115,373.333,469.333,373.333z"/>
+                    </g>
+                </svg>
+            </button>
+
+            <div id="MainDropdown" class="dropdown-content">
+                <button onclick="archive();">Архив</button>
+                <button onclick="alert('В разработке');">Импорт</button>
+            </div>
+        </div>
+
+
+        <button class="header_button" id="bt_add">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,11H13V7a1,1,0,0,0-1-1h0a1,1,0,0,0-1,1v4H7a1,1,0,0,0-1,1H6a1,1,0,0,0,1,1h4v4a1,1,0,0,0,1,1h0a1,1,0,0,0,1-1V13h4a1,1,0,0,0,1-1h0A1,1,0,0,0,17,11Z"/></svg>
+
+        </button>
+    </div>
+
+    <div class="dates_block">
+        <ul>
+            {% for date in dates %}
+            <li class="dates_{{ forloop.counter }}">{{ date }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="main">
+        <ul>
+            {% for habit in habits %}
+            <li>
+                <div class="el_row">
+                    <div class="title">
+                        <span class="el_counter">
+                            {{habit.counter}}
+                        </span>
+                        <input type="button"
+                           class="el_info_btn"
+                           value="{{ habit.title }}"
+                           style="color: {{ habit.color }};"
+                           onclick='show_form_el({{ habit }});'>
+
+                    </div>
+
+                    <div  class="block_habit">
+                        <ul>
+                        <!-- Привычка Да/Нет -->
+                        {% if habit.type_habit == 'YN' %}
+                            {% for status in habit.actions.values %}
+                                <li>
+                                    <form method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="change_habit_status" value="{{ habit.habit_id }}_{{ forloop.counter }}">
+
+                                    {% if status == 0 %}
+                                        <button id="h{{ habit.habit_id }}_{{ forloop.counter }}"
+                                               class="dates_{{ forloop.counter }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="#525252" viewBox="0 0 24 24"><path d="M18,6h0a1,1,0,0,0-1.414,0L12,10.586,7.414,6A1,1,0,0,0,6,6H6A1,1,0,0,0,6,7.414L10.586,12,6,16.586A1,1,0,0,0,6,18H6a1,1,0,0,0,1.414,0L12,13.414,16.586,18A1,1,0,0,0,18,18h0a1,1,0,0,0,0-1.414L13.414,12,18,7.414A1,1,0,0,0,18,6Z"/></svg>
+                                        </button>
+
+                                    {% else %}
+                                        <button id="h{{ habit.habit_id }}_{{ forloop.counter }}"
+                                                class="dates_{{ forloop.counter }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="{{habit.color}}" viewBox="0 0 24 24"><path d="M1.51,6.079a1.492,1.492,0,0,1,1.06.44l7.673,7.672a2.5,2.5,0,0,0,3.536,0L21.44,6.529A1.5,1.5,0,1,1,23.561,8.65L15.9,16.312a5.505,5.505,0,0,1-7.778,0L.449,8.64A1.5,1.5,0,0,1,1.51,6.079Z"/></svg>
+                                        </button>
+
+                                    {% endif %}
+                                </form>
+                                </li>
+                            {% endfor %}
+
+                        {% else %}
+                        <!-- Измеряемая привычка -->
+                            {% for status in habit.actions.values %}
+                                <li>
+                                    <input type="hidden" name="change_habit_status" value="{{ habit.habit_id }}_{{ forloop.counter }}">
+
+                                    <button id="{{ habit.habit_id }}_{{ forloop.counter }}"
+                                            class="dates_{{ forloop.counter }}"
+                                            onclick="edit_hm(id);">
+                                        {% if status >= habit.target and status != 0 %}
+                                            <span style="color: {{ habit.color }};">{{status}} {{ habit.units }} </span>
+                                        {% else %}
+                                            <span>{{status}} {{ habit.units }}</span>
+                                        {% endif %}
+                                    </button>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <dialog id="addWindows">
+      <form method="dialog">
+          <div class="addWindowsBtns">
+          <button class="addWindowsButton" id="BtnYN">
+              <h2>Да или Нет</h2>
+              <p>Например, вы рано проснулись сегодня? Вы занимались спортом</p>
+          </button>
+
+          <button class="addWindowsButton" id="BtnHM">
+              <h2>Измеримый</h2>
+              <p>Например: Сколько км вы пробежали сегодня? Сколько страниц прочли</p>
+          </button>
+          </div>
+      </form>
+    </dialog>
+
+    <dialog class="addHabitForm" id="addHabitYN">
+      <form method="POST">
+          <form method="dialog">
+              {% csrf_token %}
+              <div class="addHabitForm_Header">
+                  <input type="submit" class="Habit_form_bt_save" value="Сохранить">
+                  <button style="background: none; border: none;" onclick="close_form();">
+                      <img class="bt_back" src="{% static 'img/back.png' %}" >
+                  </button>
+                  <input name="type_habit" value="YN" hidden>
+                  <input name="type_form_habit" id='type_form_habit_yn' value="new" hidden>
+                  <input name="habit_id" id='habit_id_yn' value="" hidden>
+
+                  <span class="addHabit_text" id="addHabit_text_yn">Добавить привычку</span>
+
+              </div>
+
+              <ul>
+                  <li>
+                      <img class="img_error" id='YN_img_error' src="{% static 'img/error.png' %}" alt="Ошибка" title="Поле не может быть пустым" hidden>
+
+                      <fieldset class="data_input" id="title_yn">
+                          <legend><b>Название</b></legend>
+                          <input id="YN_data_input_title" name="title" placeholder="Например: Зарядка" value="" required>
+                      </fieldset>
+
+                      <fieldset class="choice_color" id="ch_yn">
+                          <legend><b>Цвет</b></legend>
+                          <input name="color" value="#FFD700" id="YN_data_input_color" hidden>
+                          <input type="button" class="btn_color" id="YN_btn_color">
+                      </fieldset>
+
+                  </li>
+
+                  <li>
+                      <fieldset class="data_input">
+                          <legend><b>Вопрос</b></legend>
+                          <input id="YN_data_input_question" name="question" placeholder="Например: Сделали ли сегодня зарядку?" value="">
+
+                      </fieldset>
+                  </li>
+
+                  <li>
+                      <fieldset class="data_input">
+                          <legend><b>Частота</b></legend>
+                          <input name="frequency" id="YN_data_input_frequency" class="data_input_frequency" value="Каждый день" hidden>
+                          <input type="button" class="data_input_frequency" value="Каждый день">
+                      </fieldset>
+                  </li>
+              </ul>
+
+          </form>
+      </form>
+    </dialog>
+
+    <dialog class="addHabitForm" id="addHabitHM">
+        <form method="POST">
+            {% csrf_token %}
+            <form method="dialog">
+              <div class="addHabitForm_Header">
+                  <button style="background: none; border: none;" onclick="close_form();">
+                    <img class="bt_back" src="{% static 'img/back.png' %}" >
+                </button>
+
+                  <input type="submit" class="Habit_form_bt_save" value="Сохранить" onclick="newHabit(data_input_title);">
+                  <input name="type_habit" value="HM" hidden>
+                  <span class="addHabit_text" id="addHabit_text_hm">Добавить привычку</span>
+                  <input name="type_form_habit" id='type_form_habit_hm' value="new" hidden>
+                  <input name="habit_id" id='habit_id_hm' value="" hidden>
+              </div>
+
+              <ul>
+                  <!--Цвет-->
+                  <li>
+                      <fieldset class="data_input" id="title_hm">
+                          <legend><b>Название</b></legend>
+                          <input id="HM_data_input_title" name="title" placeholder="Например: Пробежка" required>
+
+                      </fieldset>
+
+                      <fieldset class="choice_color" id="ch_hm">
+                          <legend><b>Цвет</b></legend>
+                          <input name="color" value="#FFD700" id='HM_data_input_color' hidden>
+                          <input type="button"  class="btn_color" id="HM_btn_color">
+                      </fieldset>
+
+                  </li>
+
+                  <!--Вопрос-->
+                  <li>
+                      <fieldset class="data_input">
+                          <legend><b>Вопрос</b></legend>
+                          <input name="question" id="HM_data_input_question" placeholder="Например: Сколько вы пробежали сегодня?" value="">
+
+                      </fieldset>
+                  </li>
+
+                  <!--Частота-->
+                  <li>
+                      <fieldset class="data_input" id='hm_frequency_field'>
+                              <legend><b>Частота</b></legend>
+                              <input name="frequency" id="HM_data_input_frequency" class="data_input_frequency" value="Каждый день" hidden>
+                              <input type="button"  name="frequency" class="data_input_frequency" value="Каждый день">
+                      </fieldset>
+
+                      <fieldset class="data_input" id='hm_units_field'>
+                          <legend><b>Единицы измерения</b></legend>
+                          <input name="units" id="HM_data_input_units" placeholder="Например: км" value="" onclick="">
+                      </fieldset>
+                  </li>
+
+                  <!--Цель-->
+                  <li>
+                      <fieldset class="data_input">
+                          <legend><b>Цель</b></legend>
+                          <input name="target" id="HM_data_input_target" placeholder="Например: 15" value="">
+
+                      </fieldset>
+                  </li>
+              </ul>
+
+              <br>
+
+      </form>
+        </form>
+    </dialog>
+
+    <dialog class="form_color">
+        <form method="dialog">
+            <article>Изменить цвет</article>
+            <div class="color_block">
+                <ul>
+                    <li class="outside_el">
+                        <ul>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #EE9A9A; ">
+                            </li>
+
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #FFAB91;">
+                            </li>
+
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #FFCC80;">
+                            </li>
+
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #FFECB2;">
+                            </li>
+                        </ul>
+                    </li>
+
+                     <li class="outside_el">
+                        <ul>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #69F0AE;">
+                            </li>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #C5E1A6;">
+                            </li>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #E6EE9B;">
+                            </li>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #FFF59C;">
+                            </li>
+                        </ul>
+                    </li>
+
+                     <li class="outside_el">
+                        <ul>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #80CBC4;">
+                            </li>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #80DEEA;">
+                            </li>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #81D5FA;">
+                            </li>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #67B5F0;">
+                            </li>
+                        </ul>
+                    </li>
+
+                     <li class="outside_el">
+                        <ul>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #F48FB1;">
+                            </li>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #CF93D9;">
+                            </li>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #B39DDB;">
+                            </li>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #9EA8DB;">
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="outside_el">
+                        <ul>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #BCABA4;">
+                            </li>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #F5F5F5;">
+                            </li>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #E0E0E0;">
+                            </li>
+                            <li class="inside_el">
+                                <input type="button" class="btn_choice_color" style="background: #9E9E9E;">
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="form_frequency">
+        <form method="dialog">
+            <div class="show_form_frequency">
+                <div class="block_radio_frequency">
+                      <input type="radio" id="fr_1" class='frequency_radio'  name="drone" value="fr_1"
+                             checked>
+                      <label class="frequency_text" id="frv_1" for="fr_1">Каждый день</label>
+                </div>
+
+                <div class="block_radio_frequency">
+                      <input type="radio" id="fr_2" class='frequency_radio' name="drone" value="fr_2">
+                      <label class="frequency_text" for="fr_2">Каждые <input type="text" id="frv_2" class="btn_frequency_N" maxlength="3" value="3"> дней
+                      </label>
+                </div>
+
+                <div class="block_radio_frequency">
+                      <input type="radio" id="fr_3" class='frequency_radio' name="drone" value="fr_3">
+                      <label class="frequency_text" for="fr_3">
+                          <input type="text" id="frv_3" class="btn_frequency_N" maxlength="3" value="3"> раз в неделю
+                      </label>
+                </div>
+
+                <div class="block_radio_frequency">
+                      <input type="radio" id="fr_4" class='frequency_radio' name="drone" value="fr_4">
+                      <label class="frequency_text" for="fr_4">
+                        <input type="text" id="frv_4" class="btn_frequency_N" maxlength="3" value="10"> раз в месяц
+                      </label>
+                </div>
+            </div>
+        </form>
+        <input type="button" class='btn_save_frequency' value="Сохранить" onclick="save_frequency()">
+    </dialog>
+
+    <dialog class="el_info_form">
+        <form method="dialog">
+            <input id='el_info_form_title' name="title" value="" hidden>
+            <input name="habit_id" id='habit_id_el_info' value="" hidden>
+
+            <div class="header">
+                <img class="bt_back" src="{% static 'img/back.png' %}" onclick="close_form();">
+
+                <span id="el_info_form_span">title</span>
+                <button class="habit_done" onclick="habit_done();" hidden>Завершить</button>
+                <button class="bt_edit">
+                    <svg id='bt_edit_img' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" ><path d="M22.853,1.148a3.626,3.626,0,0,0-5.124,0L1.465,17.412A4.968,4.968,0,0,0,0,20.947V23a1,1,0,0,0,1,1H3.053a4.966,4.966,0,0,0,3.535-1.464L22.853,6.271A3.626,3.626,0,0,0,22.853,1.148ZM5.174,21.122A3.022,3.022,0,0,1,3.053,22H2V20.947a2.98,2.98,0,0,1,.879-2.121L15.222,6.483l2.3,2.3ZM21.438,4.857,18.932,7.364l-2.3-2.295,2.507-2.507a1.623,1.623,0,1,1,2.295,2.3Z"/></svg>
+                </button>
+
+                <div class="dropdown">
+                    <button class="bt_dop" onclick="el_info_bt_dop();">
+                        <svg id='bt_dop_img' xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24"><circle cx="12" cy="2" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="22" r="2"/></svg>
+                    </button>
+
+                    <div id="myDropdown" class="dropdown-content" >
+                        <button onclick="alert('В разработке');">Экспортировать</button>
+                        <button onclick="delete_el_form();">Удалить</button>
+                    </div>
+                </div>
+            </div>
+            <p id="el_info_data_frequency">Каждый день</p>
+            <div class="el_info_main_block">
+                <div class="el_info_first_block">
+                    <p class="el_info_data_title">Непрерывность:</p>
+                    <div style="position:absolute; top: 260px; margin-left: 50px;">
+                        <p class="el_info_data" id="el_info_data_all">Всего дней:</p>
+                        <p class="el_info_data" id="el_info_data_best">Лучшая серия: </p>
+                        <p class="el_info_data" id="el_info_data_current">На данный момент:</p>
+                    </div>
+
+                </div>
+
+                <div class="el_info_second_block">
+
+                    <p class="el_info_data_title">Календарь</p>
+                    <div class="el_info_calendar_block">
+                        {% for week in calendar %}
+                            <ul class="el_info_calendar">
+                            {% for date in week %}
+                                {% if "01" in date %}
+                                    <span class="month_title">{{date|get_month}}</span>
+                                {% endif %}
+                                <li>
+                                    <input type="hidden" class="el_info_calendar_btn_data" name="{{forloop.parentloop.counter}}{{forloop.counter}}" value={{date}}>
+                                    <input type="button" class="el_info_calendar_btn" id="calendar_btn_{{forloop.parentloop.counter}}{{forloop.counter}}" value="{{date|slice:':2'}}">
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </div>
+
+                    <div class="el_info_calendar_days_week">
+                        <ul class="el_info_calendar">
+                            <li>Пн</li>
+                            <li>Вт</li>
+                            <li>Ср</li>
+                            <li>Чт</li>
+                            <li>Пт</li>
+                            <li>Сб</li>
+                            <li>Вс</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="edit_hm_action_form">
+        <form method="post">
+            {% csrf_token %}
+            <div class="edit_hm_block">
+                <span>Изменить значение</span>
+                <fieldset class="data_input" id="edit_hm_field">
+                      <input name="change_habit_status" id="HM_habit_id" value="" hidden>
+                      <input name="HM_value" placeholder="Например: 15" value="">
+                </fieldset>
+                <input type="submit" value="ОК" id="edit_hm_btn">
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="delete_form">
+        <form method="post">
+            {% csrf_token %}
+            <div class="delete_form_block">
+                <h2>Удалить привычку?</h2>
+                <p>Привычка будет удалена. Это<br> действите невозможно отменить.</p>
+                <div class="delete_habit_block_btn">
+                    <input id='delete_habit' name="delete_habit" value="" hidden="">
+                    <button type="button" class="delete_habit_btn" onclick="close_delete_form();">Нет</button>
+                    <button type="submit" class="delete_habit_btn">Да</button>
+                </div>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="habit_done_form">
+        <form method="post">
+            {% csrf_token %}
+            <div class="habit_done_block">
+                <h2>Завершить привычку?</h2>
+                <p>Привычка будет перенесена в архив. Это<br> действите невозможно отменить.</p>
+                <div class="delete_habit_block_btn">
+                    <input id='habit_done' name="habit_done" value="" hidden="">
+                    <button type="button" class="delete_habit_btn" onclick="close_habit_done_form();">Нет</button>
+                    <button type="submit" class="delete_habit_btn">Да</button>
+                </div>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="archive_form">
+        <form method="dialog">
+            <div class="header">
+                <img class="bt_back" src="{% static 'img/back.png' %}" onclick="close_archive_form();">
+                <span id="archive">Архив</span>
+            </div>
+            <div class="archive_form_block">
+
+                <ul>
+                    {% if archive_habits %}
+                        {% for habit in archive_habits %}
+                        <li>
+                            <div class="archive_form_data">
+                                <p class="archive_title" style="color: {{habit.color}};">{{habit.title}}</p>
+
+                                <div style="box-sizing: border-box; padding: 80px 40px 10px; height: auto;">
+                                    {% if habit.question %}
+                                        <p class="el_info_data"><b>Вопрос:</b> {{habit.question}}</p>
+                                    {% endif %}
+
+                                    {% if habit.frequency %}
+                                        <p class="el_info_data"><b>Постоянность:</b> {{habit.frequency}}</p>
+                                    {% endif %}
+
+                                    {% if habit.target %}
+                                        <p class="el_info_data"><b>Цель:</b> {{habit.target}} {{habit.units}}</p>
+                                    {% endif %}
+
+                                    <p class="el_info_data"><b>Дата начала:</b> {{habit.date_start}}</p>
+                                    <p class="el_info_data"><b>Дата завершения:</b> {{habit.date_finish}}</p>
+
+                                </div>
+
+                            </div>
+                        </li>
+                        {% endfor %}
+
+                    {% else %}
+                        <li>
+                            <div class="archive_form_data">
+                                <p class="el_info_data_title">Архив пуст</p>
+                            </div>
+                        </li>
+                    {% endif %}
+                </ul>
+
+            </div>
+
+        </form>
+
+    </dialog>
+
+    <script src="{% static 'js/color_script.js' %}"></script>
+
+    <script src="{% static 'js/form_script.js' %}"></script>
+</body>
+
+</html>
